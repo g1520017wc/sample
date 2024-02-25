@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}about&nbspenrolment{% endblock %}
+
+{% block content %}
+    <div class="container-lg">
+    {% for item in hodicarticle_list %}
+    {% if item.category.name == "HODICについて" %}
+    {% if item.order == 3 %}
+        <div class="py-4" style="text-align: center">
+            <h2>{{ item.subtitle }}</h2>
+        </div>
+    {{ item.article | safe }}
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+    </div>
+{% endblock %}

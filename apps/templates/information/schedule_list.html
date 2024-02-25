@@ -1,0 +1,90 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}学会・研究会スケジュールリスト{% endblock %}
+
+<!-- News一覧の表示 -->
+{% block content %}
+{% if user.groups.all.0.name == 'データ編集' or user.groups.all.0.name == '管理' %}
+    <div class="container-lg">
+        <div style="padding-top: 20px; padding-left: 20px;">
+            <div class="row">
+                <div class="col-md-4">
+                    <h2>学会・研究会スケジュールリスト</h2>
+                </div>
+                <div class="col-md-5">
+                     <p><a class="btn btn-primary" href="{% url 'information:scheduleregi' %}">新規登録</a></p>
+                </div>                
+            </div>   
+        </div>
+
+        {% csrf_token %}
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">学会名</th>
+                    <th scope="col">開始日</th>
+                    <th scope="col">終了日</th>
+                    <th scope="col">投稿締切日</th>
+                    <th scope="col">修正</th>
+                    <th scope="col">削除</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for schedule in schedule_list %}
+                <tr>
+                    <td>{{ schedule.name }}</td>
+                    <td>{{ schedule.opendate }}</td>
+                    <td>{{ schedule.closedate }}</td>
+                    <td>{{ schedule.deadline }}</td>
+                    <td><a href="{% url 'information:scheduleedit' schedule.id %}"><button class="btn btn-sm btn-outline-secondary me-1" type="button">修正</a></td>
+                    <td><a href="{% url 'information:scheduledelete' schedule.id %}"><button class="btn btn-sm btn-outline-secondary me-1" type="button">削除</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% elif user.groups.all.0.name == 'データ追加' %}
+    <div class="container-lg">
+        <div style="padding-top: 20px; padding-left: 20px;">
+            <div class="row">
+                <div class="col-md-4">
+                    <h2>学会・研究会スケジュールリスト</h2>
+                </div>
+                <div class="col-md-5">
+                     <p><a class="btn btn-primary" href="{% url 'information:scheduleregi' %}">新規登録</a></p>
+                </div>                
+            </div>   
+        </div>
+
+        {% csrf_token %}
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">学会名</th>
+                    <th scope="col">開始日</th>
+                    <th scope="col">終了日</th>
+                    <th scope="col">投稿締切日</th>
+                    <th scope="col">修正</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for schedule in schedule_list %}
+                <tr>
+                    <td>{{ schedule.name }}</td>
+                    <td>{{ schedule.opendate }}</td>
+                    <td>{{ schedule.closedate }}</td>
+                    <td>{{ schedule.deadline }}</td>
+                    <td><a href="{% url 'information:scheduleedit' schedule.id %}"><button class="btn btn-sm btn-outline-secondary me-1" type="button">修正</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="container-lg">
+        <div class="py-3">
+            <div>正しいユーザでログインしてください</div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

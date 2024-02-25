@@ -1,0 +1,25 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}鈴木・岡田記念賞の受賞者の削除{% endblock %}
+
+<!-- News一覧の表示 -->
+{% block content %}
+    <div class="container-lg">
+        <div class="py-5">
+            <form method='post'>
+                {% csrf_token %}
+                <div style="padding-left: 15px; padding-right: 15px;">
+                    <div class="row border border-3 border-secondary rounded p-2 mb-2">
+                    賞ID：{{ object.prizekey.prizekey }}<br>
+                    賞の名称：{{ object.kind }}<br>
+                    受賞者・受賞グループ：{{ object.name }}<br>
+                    所属：{{ object.affiliation }}<br>
+                    </div>
+                </div>
+                <div class="pt-3">
+                    <button type='submit'>削除する</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

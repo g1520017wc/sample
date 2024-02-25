@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block title %}リンク集{% endblock %}
+
+{% block content %}
+
+    <div class="container-lg">
+        <!-- 学会・研究会のリンク処理 -->
+        {% for item in hodicarticle_list %}
+        {% if item.category.name == "リンク" %}
+        {% if item.order == 1 %}
+        <h3 class="pt-4">{{ item.subtitle }}</h3>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+        <div class="row row-cols-1 row-cols-md-5 g-4 py-3">
+        {% for item in society_list %}
+            <div class="col">
+                <div class="card h-100 shadow p-3 mb-5 bg-body rounded" style="width:100%;">
+                    {% if item.logotype %}
+                        <a href={{ item.url }}><img src="{{ item.thumbnail.url }}" class="card-img-top" alt="logo"></a>
+                    {% else %}
+                        <div class="logvertical" style="text-align: center;">
+                        <a href={{ item.url }}><img src="{{ item.thumbnail.url }}" class="card-img-top" alt="logo" height="60px"></a>
+                        </div>
+                    {% endif %}        
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.title }}</h5>
+                        <p class="card-text">{{ item.introduction }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+        <!-- 美術館・科学館・博物館のリンク処理 -->
+        {% for item in hodicarticle_list %}
+        {% if item.category.name == "リンク" %}
+        {% if item.order == 2 %}
+        <h3>{{ item.subtitle }}</h3>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+        <div class="row row-cols-1 row-cols-md-5 g-4 py-3">
+        {% for item in museum_list %}
+            <div class="col">
+                <div class="card h-100 shadow p-3 mb-5 bg-body rounded" style="width:100%;">
+                    {% if item.logotype %}
+                        <a href={{ item.url }}><img src="{{ item.thumbnail.url }}" class="card-img-top" alt="logo"></a>
+                    {% else %}
+                        <div class="logvertical" style="text-align: center;">
+                        <a href={{ item.url }}><img src="{{ item.thumbnail.url }}" class="card-img-top" alt="logo" height="60px"></a>
+                        </div>
+                    {% endif %}                
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.title }}</h5>
+                        <p class="card-text">{{ item.introduction }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+        <!-- 大学関連のリンク処理 -->
+        {% for item in hodicarticle_list %}
+        {% if item.category.name == "リンク" %}
+        {% if item.order == 3 %}
+        <h3>{{ item.subtitle }}</h3>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+        <div class="row row-cols-1 row-cols-md-5 g-4 py-3">
+        {% for item in university_list %}
+            <div class="col">
+                <div class="card h-100 shadow p-3 mb-5 bg-body rounded" style="width:100%;">
+                    {% if item.logotype %}
+                        <a href={{ item.url }}><img src="{{ item.thumbnail.url }}" class="card-img-top" alt="logo"></a>
+                    {% else %}
+                        <div class="logvertical" style="text-align: center;">
+                        <a href={{ item.url }}><img src="{{ item.thumbnail.url }}" class="card-img-top" alt="logo" height="60px"></a>
+                        </div>
+                    {% endif %}                
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.title }}</h5>
+                        <p class="card-text">{{ item.introduction }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>    
+        <!-- 企業関連のリンク処理 -->
+        {% for item in hodicarticle_list %}
+        {% if item.category.name == "リンク" %}
+        {% if item.order == 4 %}
+        <h3>{{ item.subtitle }}</h3>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+        <div class="row row-cols-1 row-cols-md-5 g-4 py-3">
+        {% for item in company_list %}
+            <div class="col">
+                <div class="card h-100 shadow p-3 mb-5 bg-body rounded" style="width:100%;">
+                    {% if item.logotype %}
+                        <a href={{ item.url }}><img src="{{ item.thumbnail.url }}" class="card-img-top" alt="logo"></a>
+                    {% else %}
+                        <div class="logvertical" style="text-align: center;">
+                        <a href={{ item.url }}><img src="{{ item.thumbnail.url }}" class="card-img-top" alt="logo" height="60px"></a>
+                        </div>
+                    {% endif %}                
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.title }}</h5>
+                        <p class="card-text">{{ item.introduction }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}    
+        </div>
+        <!-- 個人のリンク処理 -->
+        {% for item in hodicarticle_list %}
+        {% if item.category.name == "リンク" %}
+        {% if item.order == 5 %}
+        <h3>{{ item.subtitle }}</h3>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+        <div class="row row-cols-1 row-cols-md-5 g-4 py-3">
+        {% for item in individualh_list %}
+            <div class="col">
+                <div class="card h-100 shadow p-3 mb-5 bg-body rounded" style="width:100%;">
+                    {% if item.logotype %}
+                        <a href={{ item.url }}><img src="{{ item.thumbnail.url }}" class="card-img-top" alt="logo"></a>
+                    {% else %}
+                        <div class="logvertical" style="text-align: center;">
+                        <a href={{ item.url }}><img src="{{ item.thumbnail.url }}" class="card-img-top" alt="logo" height="60px"></a>
+                        </div>
+                    {% endif %}                
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.title }}</h5>
+                        <p class="card-text">{{ item.introduction }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}    
+        </div>
+    </div><!-- コンテナ -->
+{% endblock content %}

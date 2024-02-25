@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}学生シンポジウム優秀発表賞{% endblock %}
+
+{% block content %}
+    <div class="container-lg">
+        <div class="pt-4" style="text-align: center">
+        {% for item in hodicarticle_list %}
+        {% if item.category.name == "学生賞" %}
+        {% if item.order == 2 %}
+            <h2>{{ item.subtitle }}</h2>
+        </div>
+        {{ item.article | safe }}
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+        <div class="py-3">
+            <div class="table-responsive position-relative" style="width:100%; height:300px;">
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col" style="width:9%;">年度</th>
+                            <th scope="col">タイトル</th>
+                            <th scope="col" style="width:35%;">氏名(所属)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in studentaward_list %}
+                            {% if item.prizekey.prize_type == "学生シンポジウム優秀発表賞" %}
+                                <tr>
+                                    <td>{{ item.prizekey.AD }}年度</td>
+                                    <td>{{ item.title }}</td>
+                                    <td>{{ item.name }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

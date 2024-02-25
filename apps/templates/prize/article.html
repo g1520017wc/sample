@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}鈴木・岡田記念賞{% endblock %}
+
+{% block content %}
+    <div class="container-lg">
+        {% for article in article_list %}
+            {% if article.article_style == 'PDF' and article.pdf %}
+                <div style="text-align: center">
+                    <embed src="{{ article.pdf.url }}" type="application/pdf" width="100%" height="1035px">
+                </div>
+            {% else %}
+                <div style="text-align: center">
+                    <h2 class="py-4">{{ article.prizekey.AD }}年度（第{{ article.prizekey.times }}回）{{ article.prizekey.prize_type }}</h2>
+                </div>
+                <div class="py-4">{{ article.article|safe }}</div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

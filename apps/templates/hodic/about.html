@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}about&nbsphodic{% endblock %}
+
+{% block content %}
+    <div class="container-lg">
+        <div class="pt-4" style="text-align: center">
+            <h2>HODICについて</h2>
+        </div>
+        <div class="pt-5">
+        {% for item in hodicarticle_list %}
+        {% if item.category.name == "HODICについて" %}
+        {% if item.order == 1 %}
+            <h4><span class="rounded" style="background-color: rgb(0, 238, 153); border: 1px solid rgb(0, 238, 153); padding-left: 5px;"></span>&nbsp{{ item.subtitle }}</h4>
+        </div>
+        {{ item.article | safe }}
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+        <a name="kiyaku"></a>
+        <div class="py-3">
+        {% for item in hodicarticle_list %}
+        {% if item.category.name == "HODICについて" %}
+        {% if item.order == 2 %}
+            <h4><span class="rounded" style="background-color: rgb(0, 238, 153); border: 1px solid rgb(0, 238, 153); padding-left: 5px;"></span>&nbsp{{ item.subtitle }}</h4>
+        </div>
+        {{ item.article | safe }}
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

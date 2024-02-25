@@ -1,0 +1,167 @@
+{% load static %}
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+        
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+
+        
+        <title>{% block title %} {% endblock %}</title>
+        
+        <!-- ckeditor関連 -->
+        <link rel="stylesheet" href="{% static 'ckeditor/plugins/codesnippet/lib/highlight/styles/default.css' %}" /> 
+        <script src="{% static 'ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js' %}"></script>    
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        
+        <!-- カーソルを合わせた時にドロップダウンを表示するためのJavaScript -->
+        <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          var dropdownMenus = document.querySelectorAll(".nav-item.dropdown");
+          dropdownMenus.forEach(function (dropdownMenu) {
+            dropdownMenu.addEventListener("mouseenter", function () {
+              dropdownMenu.querySelector(".dropdown-menu").classList.add("show");
+            });
+            dropdownMenu.addEventListener("mouseleave", function () {
+              dropdownMenu.querySelector(".dropdown-menu").classList.remove("show");
+            });
+          });
+        });
+        </script>
+        
+        <style>
+            @media (max-width: 991px) {
+                h1 {
+                    font-size: 1.2rem; /* 適切なサイズに調整してください */
+                }
+            }
+        </style>
+        
+    </head>
+    
+    <body>
+        <header class="navbar navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'hodic:manuallist' %}">
+                    <h1>&nbsp;&nbsp;HODICデータ投稿用ページ&nbsp;&nbsp;</h1>
+                </a>
+            </div>
+        </header>
+   
+        <div class="sticky-top"><!--ナビゲーションの固定-->
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="ナビゲーションの切替">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-center" id="navbar">
+                        <ul class="navbar-nav mb-2 mb-md-0">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'hodic:manuallist' %}"><font color="#FFFFFF" size="4"><b>マニュアル</b></font></a>
+                            </li>                        
+                            <span class="border-start"></span>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="{% url 'hodic:hodicarticlelist' %}" id="navbarDropdown1" role="button" aria-expanded="false">
+                                    <i class="fas fa-chevron-down"></i>
+                                    <font color="#FFFFFF" size="4"><b>記事</b></font>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown1">
+                                    <li><a class="dropdown-item" href="{% url 'hodic:hodiccategorylist' %}"><font size="3">記事カテゴリ</font></a></li>
+                                    <li><a class="dropdown-item" href="{% url 'hodic:hodicarticlelist' %}"><font size="3">記事リスト</font></a></li>
+                                </ul>
+                            </li>
+                            <span class="border-start"></span>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'hodic:updatelist' %}"><font color="#FFFFFF" size="4"><b>更新情報 & News</b></font></a>
+                            </li>                        
+                            <span class="border-start"></span>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="{% url 'meeting:meetinglist' %}" id="navbarDropdown1" role="button" aria-expanded="false">
+                                    <i class="fas fa-chevron-down"></i>
+                                    <font color="#FFFFFF" size="4"><b>研究会</b></font>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown1">
+                                    <li><a class="dropdown-item" href="{% url 'meeting:meetinglist' %}"><font size="3">研究会</font></a></li>
+                                    <li><a class="dropdown-item" href="{% url 'meeting:footerlist' %}"><font size="3">フッター</font></a></li>
+                                    <li><a class="dropdown-item" href="{% url 'meeting:meetingcategorylist' %}"><font size="3">カテゴリ</font></a></li>
+                                </ul>
+                            </li>
+                            <span class="border-start"></span>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'hodic:circularlist' %}?next={{ hodic.circular }}"><font color="#FFFFFF" size="4"><b>Circular</b></font></a>
+                            </li>
+                            <span class="border-start"></span>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="{% url 'prize:prizelist' %}" id="navbarDropdown1" role="button" aria-expanded="false">
+                                    <i class="fas fa-chevron-down"></i>
+                                    <font color="#FFFFFF" size="4"><b>各賞</b></font>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown1">
+                                    <li><a class="dropdown-item" href="{% url 'prize:prizelist' %}"><font size="3">HODIC賞</font></a></li>
+                                    <li><hr class="dropdown-divider" style="border-color:gray;"></li>
+                                    <li><a class="dropdown-item" href="{% url 'prize:splist' %}"><font size="3">特別賞</font></a></li>
+                                    <li><hr class="dropdown-divider" style="border-color:gray;"></li>
+                                    <li><a class="dropdown-item" href="{% url 'prize:studentlist' %}"><font size="3">学生賞</font></a></li>
+                                    <li><hr class="dropdown-divider" style="border-color:gray;"></li>
+                                    <li><a class="dropdown-item" href="{% url 'prize:articlelist' %}"><font size="3">鈴木・岡田記念賞の記事</font></a></li>
+                                    <li><a class="dropdown-item" href="{% url 'prize:prizewinnerlist' %}"><font size="3">鈴木・岡田記念賞の受賞者</font></a></li>
+                                </ul>
+                            </li>
+                            <span class="border-start"></span>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="{% url 'information:conflist' %}" id="navbarDropdown1" role="button" aria-expanded="false">
+                                    <i class="fas fa-chevron-down"></i>
+                                    <font color="#FFFFFF" size="4"><b>情報コーナー</b></font>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown1">
+                                    <li><a class="dropdown-item" href="{% url 'information:conflist' %}"><font size="3">関連学会・研究会開催情報</font></a></li>
+                                    <li><a class="dropdown-item" href="{% url 'information:schedulelist' %}"><font size="3">関連学会・研究会スケジュール</font></a></li>
+                                    <li><hr class="dropdown-divider" style="border-color:gray;"></li>
+                                    <li><a class="dropdown-item" href="{% url 'information:wordcategorylist' %}"><font size="3">カテゴリ</font></a></li>
+                                    <li><a class="dropdown-item" href="{% url 'information:holowordslist' %}"><font size="3">ホログラフィ関連用語集</font></a></li>
+                                    <li><hr class="dropdown-divider" style="border-color:gray;"></li>
+                                    <li><a class="dropdown-item" href="{% url 'information:booklist' %}"><font size="3">書籍</font></a></li>
+                                    <li><a class="dropdown-item" href="{% url 'information:webbookmarklist' %}"><font size="3">Webコンテンツ</font></a></li>
+                                </ul>
+                            </li>
+                            <span class="border-start"></span>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'information:linklist' %}"><font color="#FFFFFF" size="4"><b>リンク</b></font></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- ログアウトボタンのための新しいリストアイテムを追加 -->
+                    <div class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:logout' %}" style="font-size: 18px; color: #FFFFFF; background-color: #666666; padding: 8px 15px; border-radius: 5px; font-weight: bold;">ログアウト</a>
+                        </li>
+                    </div>
+                </div>
+            </nav>   
+        </div>
+        
+        {% block content %}{% endblock %}
+        
+        <!-- footer -->   
+        <div class="container-lg">
+            <div class='p-1'> 
+                <footer>
+                    <p id="copyright">&copy; 2023, HODIC</p>
+                </footer>
+            </div>
+        </div>
+        
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    </body>
+</html>

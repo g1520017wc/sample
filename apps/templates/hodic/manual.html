@@ -1,0 +1,30 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}マニュアル{% endblock %}
+
+<!-- News一覧の表示 -->
+{% block content %}
+{% if user.groups.all.0.name == 'データ編集' or user.groups.all.0.name == '管理' %}
+     <div class="container-lg">
+         {% for manual in manual_list %}
+             <div style="text-align: center">
+                 <embed src="{{ manual.pdf.url }}" type="application/pdf" width="100%" height="1035px">
+             </div>
+        {% endfor %}
+    </div>
+{% elif user.groups.all.0.name == 'データ追加' %}
+    <div class="container-lg">
+        {% for manual in manual_list %}
+            <div style="text-align: center">
+                <embed src="{{ manual.pdf.url }}" type="application/pdf" width="100%" height="1035px">
+            </div>
+       {% endfor %}
+   </div>
+{% else %}
+    <div class="container-lg">
+        <div class="py-3">
+            <div>正しいユーザでログインしてください</div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

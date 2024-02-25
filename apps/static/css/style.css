@@ -1,0 +1,15 @@
+.meetingtable p{
+    margin: 0px;
+}
+
+/* Linkの画面のCSS　*/
+.logvertical img {    
+    width: auto;
+}
+/* Linkの画面のCSS ここまで　*/
+
+thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}

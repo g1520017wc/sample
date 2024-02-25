@@ -1,0 +1,223 @@
+{% extends 'base.html' %}
+
+{% block title %}行事開催案内{% endblock %}
+
+{% block content %}
+    
+    <div class="container-lg">
+        {% for presentation in detail_list %}
+            {% if presentation.key.style == 2 %}
+            <div style="text-align: center">
+                <embed src="{{ presentation.file.url }}" type="application/pdf" width="100%" height="1190px">
+            </div>
+            {% else %}
+                {% if forloop.counter <= 1 %}
+                    {% for presentation in detail_list %}
+                    
+                        {% if forloop.counter <= 1 %}
+                            <div class="py-4" style="text-align: center">
+                                <h2>{{ presentation.key.date|date:"Y年" }}第{{ presentation.key.times }}回</h2>
+                                <h2>ホログラフィック・ディスプレイ研究会のお知らせ</h2>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <ul>
+                        <!-- 日時 -->
+                        <p>
+                            <div class="meetingtable">
+                                <table>
+                                {% for presentation in detail_list %}
+                                    {% if forloop.counter <= 1 %}
+                                        <tr>
+                                            <td><li>日時：&nbsp&nbsp</li></td>
+                                            <td>{{ presentation.key.date|date:"Y年n月j日 （l）" }}&nbsp&nbsp&nbsp&nbsp&nbsp</td>
+                                            <td>{{ presentation.key.time }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                                </table>
+                            </div>
+                        </p>
+                        
+                        <!-- 場所 -->
+                        <p>
+                            <div class="meetingtable">
+                                <table>
+                                {% for presentation in detail_list %}
+                                    {% if forloop.counter <= 1 %}
+                                        <tr>
+                                            <td valign="top"><li>場所：&nbsp&nbsp</li></td>
+                                            <td>{{ presentation.key.location | safe }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                                </table>
+                            </div>
+                        </p>
+                        
+                        <!-- テーマ -->
+                        {% for presentation in detail_list %}
+                            {% if presentation.key.theme %}
+                                <p>
+                                    {% if forloop.counter <= 1 %}
+                                        <div class="meetingtable">
+                                            <table>
+                                                <tr>
+                                                    <td valign="top"><li>テーマ：&nbsp;&nbsp;</li></td>
+                                                    <td>{{ presentation.key.theme }}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    {% endif %}
+                                </p>
+                            {% endif %}
+                        {% endfor %}
+                        <!-- 共催 -->
+                        {% for presentation in detail_list %}
+                            {% if presentation.key.joint %}
+                                <p>
+                                    {% if forloop.counter <= 1 %}
+                                        <div class="meetingtable">
+                                            <table>
+                                                <tr>
+                                                    <td valign="top"><li>共催：&nbsp;&nbsp;</li></td>
+                                                    <td>{{ presentation.key.joint | safe }}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    {% endif %}
+                                </p>
+                            {% endif %}
+                        {% endfor %}
+
+                    
+                    
+                        <!-- 講演 -->
+                        <div class="py-2">
+                            <p><li>プログラム</li></p>
+                            <script>                            
+                                counter0();
+                            </script>
+                            <div class="meetingtable">
+                                <table class="table text-nowrap table-borderless table-sm m-4" style="line-height:1.5;">
+                                {% for presentation in detail_list %}
+                                    <tr>
+                                        {% if presentation.authors %}                         
+                                        <td>
+                                            <script>                            
+                                                counter();                            
+                                                document.write("(" + count + ")");
+                                            </script>
+                                        </td>
+                                        {% else %}
+                                        <td></td>
+                                        {% endif %}
+                                        {% if presentation.time %}
+                                            <td>{{ presentation.time }}</td>
+                                        {% endif %}
+                                        <td>                         
+                                            {{ presentation.title | safe }}
+                                            {{ presentation.authors | safe }}                        
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- 研究会参加申込 -->
+                        {% for presentation in detail_list %}
+                            {% if presentation.key.application.body %}
+                                <p>
+                                     {% if forloop.counter <= 1 %}
+                                        <div class="meetingtable">
+                                            <table>
+                                                <tr>
+                                                    <td valign="top"><li>研究会参加申込：&nbsp&nbsp</li></td>
+                                                    <td>{{ presentation.key.application.body | safe }}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    {% endif %}
+                                </p>
+                            {% endif %}
+                        {% endfor %}
+                                
+                            
+                        
+                        
+                        <!-- 参加費 -->
+                        {% for presentation in detail_list %}
+                            {% if presentation.key.entrancefee.body %}
+                                <p>
+                                    {% if forloop.counter <= 1 %}
+                                        <div class="meetingtable">
+                                            <table>
+                                                <tr>
+                                                    <td valign="top"><li>参加費：&nbsp&nbsp</li></td>
+                                                    <td>{{ presentation.key.entrancefee.body | safe }}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    {% endif %}
+                                </p>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        <!-- 懇親会費 -->
+                        {% for presentation in detail_list %}
+                            {% if presentation.key.friendship %}
+                                <p>
+                                    {% if forloop.counter <= 1 %}
+                                        <div class="meetingtable">
+                                            <table>
+                                                <tr>
+                                                    <td valign="top"><li>懇親会費：&nbsp;&nbsp;</li></td>
+                                                    <td>{{ presentation.key.friendship | safe }}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    {% endif %}
+                                </p>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        <!-- 会報 -->
+                        {% for presentation in detail_list %}
+                            {% if presentation.key.circular.body %}
+                                <p>
+                                    {% if forloop.counter <= 1 %}
+                                        <div class="meetingtable">
+                                            <table>
+                                                <tr>
+                                                    <td valign="top"><li>会報：&nbsp;&nbsp;</li></td>
+                                                    <td>{{ presentation.key.circular.body | safe }}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    {% endif %}
+                                </p>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        <!-- 問合せ先 -->
+                        <p>
+                            <div class="meetingtable">
+                                <table>
+                                {% for presentation in detail_list %}
+                                    {% if forloop.counter <= 1 %}
+                                        <tr>
+                                            <td valign="top"><li>問合せ先：&nbsp&nbsp</li></td>
+                                            <td>{{ presentation.key.inquiry.body | safe }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                                </table>
+                            </div>
+                        </p>
+                    </ul>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

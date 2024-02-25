@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}HODIC賞{% endblock %}
+
+{% block content %}
+    <div class="container-lg">
+        <div class="pt-4" style="text-align: center">
+            <h2>特別賞</h2>
+        </div>
+        {% for item in hodicarticle_list %}
+        {% if item.category.name == "特別賞" %}
+        <div class="pt-5">
+            <h4><span class="rounded" style="background-color: rgb(0, 238, 153); border: 1px solid rgb(0, 238, 153); padding-left: 5px;"></span>&nbsp{{ item.subtitle }}</h4>
+        </div>
+        {{ item.article | safe }}
+        {% endif %}
+        {% endfor %}
+        <hr size="5">
+        <div class="pt-4" style="text-align: center">
+            <h2>鈴木・岡田記念賞</h2>
+        </div>
+        {% for item in hodicarticle_list %}
+        {% if item.category.name == "鈴木・岡田記念賞" %}
+        {% if item.order == 1 %}
+        <div class="pt-5">
+            <h4><span class="rounded" style="background-color: rgb(0, 238, 153); border: 1px solid rgb(0, 238, 153); padding-left: 5px;"></span>&nbsp{{ item.subtitle }}</h4>
+        </div>
+        {{ item.article | safe }}
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+        
+        {% for item in hodicarticle_list %}
+        {% if item.category.name == "鈴木・岡田記念賞" %}
+        {% if item.order == 2 %}
+        <div class="pt-4">
+            <h4><span class="rounded" style="background-color: rgb(0, 238, 153); border: 1px solid rgb(0, 238, 153); padding-left: 5px;"></span>&nbsp{{ item.subtitle }}</h4>
+        </div>
+        {{ item.article | safe }}
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

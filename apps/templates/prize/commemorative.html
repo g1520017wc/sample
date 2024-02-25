@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+
+{% block title %}鈴木・岡田記念賞{% endblock %}
+
+{% block content %}
+    <div class="container-lg">
+        <div class="py-4" style="text-align: center">
+            <h2>HODIC鈴木・岡田記念賞受賞者一覧</h2>
+        </div>
+        <style>
+            .hidden {
+                display: none;
+            }
+        </style>
+
+        <div class="btn-toolbar pb-4" role="toolbar" aria-label="Toolbar with button groups">
+            <!-- 他のボタン -->
+            <div class="btn-group" role="group" aria-label="First group">
+                {% for field in form %}
+                    {% if field.name != 'year' and field.name != 'name_or_affiliation' %}
+                        <button type="button" class="btn btn-outline-primary" onclick="filterByPrize('{{ field.label }}')">
+                            {{ field.label }}
+                        </button>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        
+            <!-- フィルター解除ボタン -->
+            {% if clear_filter_button %}
+                <form method="get" action="{% url 'prize:commemorative' %}" style="margin-left: 30px;">
+                    <button type="submit" class="btn btn-outline-danger">フィルター解除</button>
+                </form>
+            {% endif %}
+        </div>
+
+
+        <form method="get" action="{% url 'prize:commemorative' %}" id="prizeSearchForm" style="display: none;">
+            <input type="hidden" name="kind" id="prizeKind" value="">
+        </form>
+        
+        <div>
+            <button id="showYearFormButton" class="btn btn-outline-success w-100 text-start">年度検索</button>
+            <form method="get" class="form-inline hidden" id="yearSearchForm" style="margin-top: 20px;">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <p>{{ form.year }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3"">
+                        <button type="submit" class="btn btn-primary">検索</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        
+
+        <div>
+            <button id="showNameFormButton" class="btn btn-outline-success w-100 text-start">氏名(所属)検索</button>
+            <form method="get" class="form-inline hidden" id="nameSearchForm" style="margin-top: 20px;">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ form.name_or_affiliation }}
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary">検索</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <script>
+            function toggleFormVisibility(formId) {
+                var searchForm = document.getElementById(formId);
+                if (searchForm.classList.contains('hidden')) {
+                    searchForm.classList.remove('hidden');
+                } else {
+                    searchForm.classList.add('hidden');
+                }
+            }
+
+            document.getElementById('showYearFormButton').addEventListener('click', function() {
+                toggleFormVisibility('yearSearchForm');
+            });
+
+            document.getElementById('showNameFormButton').addEventListener('click', function() {
+                toggleFormVisibility('nameSearchForm');
+            });
+
+            // 賞名のボタンがクリックされたときに絞り込みを行い、フォームが送信される
+            const prizeButtons = document.querySelectorAll('.btn-group-toggle .btn-outline-primary');
+            prizeButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    const prizeName = button.textContent.trim();
+                    // 賞名をフォームに設定して、フォームが送信される
+                    document.getElementById('id_kind').value = prizeName;
+                    document.getElementById('prizeSearchForm').submit();
+                });
+            });
+            
+            function filterByPrize(prize) {
+                // 賞名をフォームに設定して、フォームが送信される
+                document.getElementById('prizeKind').value = prize;
+                document.getElementById('prizeSearchForm').submit();
+            }
+        </script>
+
+        <div class="py-3">
+            <div class="table-responsive position-relative" style="width:100%; height:1000px;">
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col" style="width:11%;">年度</th>
+                            <th scope="col" style="width:15%;">賞名</th>
+                            <th scope="col">氏名(所属)</th>
+                            <th scope="col" style="width:10%;">リンク</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in object_list %}
+                        <tr>
+                            <td>{{ item.prizekey.AD }}年度</td>
+                            {% if item.kind == "技術部門賞" %}
+                                <td align="center">
+                                    <div class="bg-danger text-white rounded-pill">&nbsp&nbsp<b>{{ item.kind }}</b>&nbsp&nbsp</div>
+                                </td>
+                            {% elif item.kind == "技術部門奨励賞" %}
+                                <td align="center">
+                                    <div class="bg-danger-subtle text-black rounded-pill">&nbsp&nbsp<b>{{ item.kind }}</b>&nbsp&nbsp</div>
+                                </td>
+                            {% elif item.kind == "貢献賞" %}
+                                <td align="center">
+                                    <div class="bg-success text-white rounded-pill">&nbsp&nbsp<b>{{ item.kind }}</b>&nbsp&nbsp</div>
+                                </td>
+                            {% elif item.kind == "特別賞" %}
+                                <td align="center">
+                                    <div class="bg-warning text-black rounded-pill">&nbsp&nbsp<b>{{ item.kind }}</b>&nbsp&nbsp</div>
+                                </td>
+                            {% elif item.kind == "芸術部門賞" %}
+                                <td align="center">
+                                    <div class="bg-primary text-white rounded-pill">&nbsp&nbsp<b>{{ item.kind }}</b>&nbsp&nbsp</div>
+                                </td>
+                            {% elif item.kind == "芸術部門奨励賞" %}
+                                <td align="center">
+                                    <div class="bg-primary-subtle text-black rounded-pill">&nbsp&nbsp<b>{{ item.kind }}</b>&nbsp&nbsp</div>
+                                </td>
+                            {% else %}
+                                <td>{{ item.kind }}</td>
+                            {% endif %}
+                            {% if item.affiliation == default %}
+                            <td>{{ item.name }}</td>
+                            {% else %}
+                            <td>{{ item.name }} 氏（{{ item.affiliation }}）</td>
+                            {% endif %}
+                            <td>
+                                <a href="{% url 'prize:article' articlekey=item.prizekey %}">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm">詳細はこちら</button>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

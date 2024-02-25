@@ -1,0 +1,24 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}特別賞の削除{% endblock %}
+
+<!-- News一覧の表示 -->
+{% block content %}
+    <div class="container-lg">
+        <div class="py-5">
+            <form method='post'>
+                {% csrf_token %}
+                <div style="padding-left: 15px; padding-right: 15px;">
+                    <div class="row border border-3 border-secondary rounded p-2 mb-2">
+                    受賞者名：{{ object.name }}<br>
+                    所属：{{ object.affiliation }}<br>
+                    受賞日：{{ object.date }}<br>
+                    </div>
+                </div>
+                <div class="pt-3">
+                    <button type='submit'>削除する</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

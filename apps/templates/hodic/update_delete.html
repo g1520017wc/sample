@@ -1,0 +1,24 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}更新情報の削除{% endblock %}
+
+<!-- News一覧の表示 -->
+{% block content %}
+    <div class="container-lg">
+        <div class="py-5">
+            <form method='post'>
+                {% csrf_token %}
+                <div style="padding-left: 15px; padding-right: 15px;">
+                    <div class="row border border-3 border-secondary rounded p-2 mb-2">
+                    更新日：{{ object.date }}<br>
+                    更新内容：{{ object.content }}<br>
+                    カテゴリー：{{ object.category }}<br>
+                    </div>
+                </div>
+                <div class="pt-3">
+                    <button type='submit'>削除する</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

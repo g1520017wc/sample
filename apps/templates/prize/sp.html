@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}特別賞{% endblock %}
+
+{% block content %}
+{% for item in object_list %}
+    {{ item.text | safe }}
+{% endfor %}
+{% endblock %}

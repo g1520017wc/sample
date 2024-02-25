@@ -1,0 +1,163 @@
+{% load static %}
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+        
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+
+        
+        <title>{% block title %} {% endblock %}</title>
+        
+        <!-- ckeditor関連 -->
+        <link rel="stylesheet" href="{% static 'ckeditor/plugins/codesnippet/lib/highlight/styles/default.css' %}" /> 
+        <script src="{% static 'ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js' %}"></script>    
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        
+        <!-- 連番用カウンター -->
+        <script>
+        var count = 0;
+        function counter(){
+          count += 1;
+        }
+        function counter0(){
+          count = 0;
+        }
+        </script>
+        
+        <!-- カーソルを合わせた時にドロップダウンを表示するためのJavaScript -->
+        <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          var dropdownMenus = document.querySelectorAll(".nav-item.dropdown");
+          dropdownMenus.forEach(function (dropdownMenu) {
+            dropdownMenu.addEventListener("mouseenter", function () {
+              dropdownMenu.querySelector(".dropdown-menu").classList.add("show");
+            });
+            dropdownMenu.addEventListener("mouseleave", function () {
+              dropdownMenu.querySelector(".dropdown-menu").classList.remove("show");
+            });
+          });
+        });
+        </script>
+
+        
+        <style>
+            @media (max-width: 991px) {
+                h1 {
+                    font-size: 1.2rem; /* 適切なサイズに調整してください */
+                }
+            }
+        </style>
+        
+    </head>
+    <body>
+        <header class="navbar navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'hodic:hodic' %}">
+                    <h1>&nbsp;&nbsp;ホログラフィック・ディスプレイ研究会&nbsp;&nbsp;</h1>
+                </a>
+            </div>
+        </header>
+   
+        <div class="sticky-top"><!--ナビゲーションの固定-->
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="ナビゲーションの切替">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-center" id="navbar">
+                        <ul class="navbar-nav mb-2 mb-md-0">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="{% url 'hodic:hodic' %}" id="navbarDropdown1" role="button" aria-expanded="false">
+                                    <i class="fas fa-chevron-down"></i>
+                                    <font color="#FFFFFF" size="4"><b>HODICについて</b></font>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown1">
+                                    <li><a class="dropdown-item" href="{% url 'hodic:hodic' %}"><font size="3">トップページ</font></a></li>
+                                    <li><hr class="dropdown-divider" style="border-color: gray;"></li>
+                                    <li><a class="dropdown-item" href="{% url 'hodic:about' %}"><font size="3">HODICの活動内容</font></a></li>
+                                    <li><a class="dropdown-item" href="{% url 'hodic:about' %}#kiyaku"><font size="3">HODIC規約</font></a></li>
+                                    <li><hr class="dropdown-divider" style="border-color: gray;"></li>
+                                    <li><a class="dropdown-item" href="{% url 'hodic:nyukai' %}"><font size="3">入会の方法</font></a></li>
+                                </ul>
+                            </li>
+                            <span class="border-start"></span>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'meeting:meeting' %}"><font color="#FFFFFF" size="4"><b>HODIC研究会</b></font></a>
+                            </li>
+                            <span class="border-start"></span>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="{% url 'hodic:circular' %}" id="navbarDropdown1" role="button" aria-expanded="false">
+                                    <i class="fas fa-chevron-down"></i>
+                                    <font color="#FFFFFF" size="4"><b>会報</b></font>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown1">
+                                    <li><a class="dropdown-item" href="{% url 'hodic:circular' %}"><font size="3">会報「HODIC Circular」</font></a></li>
+                                    <li><a class="dropdown-item" href="{% url 'hodic:circular' %}#editorial"><font size="3">お知らせ</font></a></li>
+                                    <li><a class="dropdown-item" href="{% url 'hodic:circular' %}#kakikata"><font size="3">原稿の書き方</font></a></li>
+                                    <li><a class="dropdown-item" href="{% url 'hodic:circular' %}#format"><font size="3">原稿用紙</font></a></li>
+                                </ul>
+                            </li>
+                            <span class="border-start"></span>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="{% url 'prize:prize' %}" id="navbarDropdown1" role="button" aria-expanded="false">
+                                    <i class="fas fa-chevron-down"></i>
+                                    <font color="#FFFFFF" size="4"><b>各賞</b></font>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown1">
+                                    <li><a class="dropdown-item" href="{% url 'prize:prize' %}"><font size="3">HODIC賞</font></a></li>
+                                    <li><a class="dropdown-item" href="{% url 'prize:sp' %}"><font size="3">特別賞の受賞者</font></a></li>
+                                    <li><a class="dropdown-item" href="{% url 'prize:commemorative' %}"><font size="3">鈴木・岡田記念賞の受賞者一覧</font></a></li>
+                                    <li><a class="dropdown-item" href="{% url 'prize:excellence' %}"><font size="3">学生優秀発表賞一覧</font></a></li>
+                                    <li><a class="dropdown-item" href="{% url 'prize:symposium' %}"><font size="3">学生シンポジウム優秀発表賞一覧</font></a></li>
+                                </ul>
+                            </li>
+                            <span class="border-start"></span>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="{% url 'information:information' %}" id="navbarDropdown1" role="button" aria-expanded="false">
+                                    <i class="fas fa-chevron-down"></i>
+                                    <font color="#FFFFFF" size="4"><b>情報コーナー</b></font>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown1">
+                                    <li><a class="dropdown-item" href="{% url 'information:information' %}"><font size="3">関連学会・研究会開催情報</font></a></li>
+                                    <li><a class="dropdown-item" href="{% url 'information:word' %}"><font size="3">ホログラフィ関連用語集</font></a></li>
+                                    <li><a class="dropdown-item" href="{% url 'information:book' %}"><font size="3">書籍一覧</font></a></li>
+                                </ul>
+                            </li>
+                            <span class="border-start"></span>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'information:link' %}"><font color="#FFFFFF" size="4"><b>リンク</b></font></a>
+                            </li>
+                        </ul>
+                    </div>
+                    {% block circular %}
+                    {% endblock %}
+                </div>
+            </nav>   
+        </div>
+        
+        {% block content %}{% endblock %}
+        
+        <!-- footer -->   
+        <div class="container-lg">
+            <div class='p-1'> 
+                <footer>
+                    <p id="copyright">&copy; 2024, HODIC</p>
+                </footer>
+            </div>
+        </div>
+        
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    </body>
+</html>

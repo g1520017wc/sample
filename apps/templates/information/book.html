@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}書籍{% endblock %}
+
+{% block content %}
+    
+    <div class="container-lg">
+        <div class="py-4" style="text-align: center">
+        {% for item in hodicarticle_list %}
+        {% if item.category.name == "情報コーナー" %}
+        {% if item.order == 7 %}
+            <h2>{{ item.subtitle }}</h2>
+        </div>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+        <div class="row g-4 py-3">
+            {% for book in book_list %}
+                <div class="col-6">
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <a href={{ book.url }}><img src="{{ book.thumbnail.url }}" class="card-img-top img-fluid" alt="logo"></a>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ book.name }}</h5>
+                                    <p class="card-text">{{ book.pablisher }}</p>
+                                    <p class="card-text">{{ book.ISBN }}</p>
+                                    <p class="card-text">{{ book.comment | safe }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div> <!-- container-lg -->
+{% endblock %}

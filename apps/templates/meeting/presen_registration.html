@@ -1,0 +1,25 @@
+{% extends 'admin_base.html' %}
+{% block extrahead %}
+    <script>window.CKEDITOR_BASEPATH = '/my_static/ckeditor/ckeditor/';</script>
+    {{ block.super }}
+{% endblock %}
+
+{% block title %}講演追加{% endblock %}
+
+<!-- News一覧の表示 -->
+
+{% block content %}
+    <div class="container-lg">
+        <form method='POST' enctype="multipart/form-data" class="p-4 m-4 bg-light border border-primary rounded">
+        {% csrf_token %}
+            {{ form.media }}
+            {{ form.as_p }}
+            
+            {% if not form.instance.pk %}
+                <input type='submit' value='作成する' onclick="javascript:unDisabled();">
+            {% else %}
+                <input type='submit' value='更新する' onclick="javascript:unDisabled();">
+            {% endif %}        
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}用語解説{% endblock %}
+
+{% block content %}
+    
+    <div class="container-lg">
+        {% for explanation in explanation_list %}   
+            <div class="py-4" style="text-align: center">
+                <h2>{{ explanation.wordname }}</h2>
+            </div>
+            <div class="row g-4 py-3">
+                <p>{{ explanation.article | safe }}</p>
+            </div>
+        {% endfor %}
+    </div> <!-- container-lg -->
+{% endblock %}
